@@ -1,0 +1,3 @@
+[submodule "packages/dwm/source"]
+	path = packages/dwm/source
+	url = git@github.com:dsshv/dwm.git
