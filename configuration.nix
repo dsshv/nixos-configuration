@@ -9,9 +9,12 @@ in
 {
   imports =
     [ 
+      <home-manager/nixos>
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./packages/default.nix
+      ./modules/xserver.nix
+      ./config/fonts.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -38,23 +41,17 @@ in
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.windowManager.dwm.enable = true;
   services.xserver.windowManager.dwm.package = pkgs.dwm.overrideAttrs {
     src = ./packages/dwm/source;
   };
-
-
-  # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
+  home-manager.useGlobalPkgs = true;
+  home-manager.users.ilmk = { pkgs, ... }: {
+    imports = [ ./home.nix ];
+    home = { stateVersion = "24.05"; };
+  };
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
